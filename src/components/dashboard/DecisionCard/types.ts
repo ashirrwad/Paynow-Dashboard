@@ -18,7 +18,7 @@ export interface FormFieldProps {
   onChange: (value: string) => void;
   error?: string;
   disabled?: boolean;
-  type?: 'text' | 'number';
+  type?: "text" | "number";
   placeholder?: string;
   required?: boolean;
   step?: string;

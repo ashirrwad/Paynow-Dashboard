@@ -10,8 +10,8 @@
  */
 export const formatAmount = (amount: number, locale?: string): string => {
   return new Intl.NumberFormat(locale || navigator.language, {
-    style: 'currency',
-    currency: 'USD',
+    style: "currency",
+    currency: "USD",
   }).format(amount);
 };
 
@@ -23,18 +23,18 @@ export const formatAmount = (amount: number, locale?: string): string => {
  * @returns Formatted date and time string
  */
 export const formatTimestamp = (
-  timestamp: number, 
+  timestamp: number,
   locale?: string,
   options?: Intl.DateTimeFormatOptions
 ): string => {
   const defaultOptions: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    timeZoneName: 'short'
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
   };
 
   return new Intl.DateTimeFormat(

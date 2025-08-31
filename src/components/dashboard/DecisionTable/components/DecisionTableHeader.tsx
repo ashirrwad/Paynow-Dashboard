@@ -1,25 +1,25 @@
-import type { DecisionTableHeaderProps } from '../types';
+import type { DecisionTableHeaderProps } from "../types";
 
 export default function DecisionTableHeader({
   sortField,
   sortDirection,
   onSort,
-  getSortIcon
+  getSortIcon,
 }: DecisionTableHeaderProps) {
   return (
     <thead className="bg-gray-50">
       <tr>
-        <th 
+        <th
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
-          onClick={() => onSort('decision')}
+          onClick={() => onSort("decision")}
         >
-          Status {getSortIcon('decision')}
+          Status {getSortIcon("decision")}
         </th>
-        <th 
+        <th
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
-          onClick={() => onSort('amount')}
+          onClick={() => onSort("amount")}
         >
-          Amount {getSortIcon('amount')}
+          Amount {getSortIcon("amount")}
         </th>
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
           Payee
@@ -30,11 +30,11 @@ export default function DecisionTableHeader({
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
           Latency
         </th>
-        <th 
+        <th
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
-          onClick={() => onSort('timestamp')}
+          onClick={() => onSort("timestamp")}
         >
-          Time {getSortIcon('timestamp')}
+          Time {getSortIcon("timestamp")}
         </th>
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
           <span className="sr-only">Actions</span>

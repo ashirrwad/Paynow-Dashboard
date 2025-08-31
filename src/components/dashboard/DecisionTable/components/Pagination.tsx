@@ -1,6 +1,12 @@
-import type { PaginationProps } from '../types';
+import type { PaginationProps } from "../types";
 
-export default function Pagination({ currentPage, totalPages, onPageChange, totalItems, itemsPerPage }: PaginationProps) {
+export default function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalItems,
+  itemsPerPage,
+}: PaginationProps) {
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -9,7 +15,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
       <div className="flex items-center text-sm text-gray-500">
         Showing {startItem} to {endItem} of {totalItems} results
       </div>
-      
+
       <div className="flex items-center space-x-2">
         <button
           onClick={() => onPageChange(currentPage - 1)}
@@ -18,7 +24,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
         >
           Previous
         </button>
-        
+
         {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
           let pageNum;
           if (totalPages <= 5) {
@@ -37,15 +43,15 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
               onClick={() => onPageChange(pageNum)}
               className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                 currentPage === pageNum
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50"
               }`}
             >
               {pageNum}
             </button>
           );
         })}
-        
+
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}

@@ -1,4 +1,4 @@
-import { DecisionResponse } from '@/types';
+import { DecisionResponse } from "@/types";
 
 export interface DecisionRowProps {
   decision: DecisionResponse;
@@ -22,11 +22,11 @@ export interface DecisionTableFiltersProps {
 }
 
 export interface DecisionTableHeaderProps {
-  sortField: 'timestamp' | 'amount' | 'decision';
-  sortDirection: 'asc' | 'desc';
-  onSort: (field: 'timestamp' | 'amount' | 'decision') => void;
+  sortField: "timestamp" | "amount" | "decision";
+  sortDirection: "asc" | "desc";
+  onSort: (field: "timestamp" | "amount" | "decision") => void;
   getSortIcon: (field: string) => string | null;
 }
 
-export type SortField = 'timestamp' | 'amount' | 'decision';
-export type SortDirection = 'asc' | 'desc';
+export type SortField = "timestamp" | "amount" | "decision";
+export type SortDirection = "asc" | "desc";

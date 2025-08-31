@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { DecisionResponse } from '@/app/api/decide/route';
+import { create } from "zustand";
+import { DecisionResponse } from "@/app/api/decide/route";
 
 interface DecisionsState {
   decisions: DecisionResponse[];
@@ -34,11 +34,9 @@ export const useDecisionsStore = create<DecisionsStore>((set) => ({
       decisions: [decision, ...state.decisions].slice(0, 20), // Keep only last 20
     })),
 
-  setLoading: (isLoading: boolean) =>
-    set({ isLoading }),
+  setLoading: (isLoading: boolean) => set({ isLoading }),
 
-  setError: (error: string | null) =>
-    set({ error }),
+  setError: (error: string | null) => set({ error }),
 
   openDrawer: (decision: DecisionResponse) =>
     set({
@@ -52,6 +50,5 @@ export const useDecisionsStore = create<DecisionsStore>((set) => ({
       isDrawerOpen: false,
     }),
 
-  clearError: () =>
-    set({ error: null }),
+  clearError: () => set({ error: null }),
 }));
