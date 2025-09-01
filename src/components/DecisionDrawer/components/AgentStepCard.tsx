@@ -119,6 +119,7 @@ function AgentStepCard({ step, isExpanded, onToggle }: AgentStepProps) {
       </button>
 
       <Transition
+        as="div"
         show={isExpanded}
         enter="transition-all duration-200"
         enterFrom="max-h-0"

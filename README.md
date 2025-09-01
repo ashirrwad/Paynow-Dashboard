@@ -60,12 +60,13 @@ This project incorporates multiple strategies to ensure a responsive and efficie
 
 3.  **Efficient State Management**: Zustand's selector-based model ensures that components only re-render when the specific slice of state they subscribe to changes, preventing unnecessary render cycles that can be common with less optimized state management setups.
 
-4.  **Centralized PII Protection**: The `maskCustomerId` utility in `/src/utils/formatting.ts` provides a centralized approach to protecting customer data across all components. The system offers:
-    -   **Configurable Masking**: Customizable prefix, mask character, suffix length, and mask length
-    -   **Data Transformation**: Optional utilities for masking at the data level (`maskCustomerIdInData`, `maskCustomerIdsInArray`)
-    -   **Type Safety**: Full TypeScript support with proper interfaces and generics
-    -   **Backward Compatibility**: Maintains existing usage while providing enhanced features
-    -   **Consistent Application**: Used across DecisionTable, DecisionDrawer, and search functionality
+### A Note on Performance Strategy
+
+The assignment required implementing one primary performance optimization. This submission includes two (`debounce` and `memo`) because they solve two different classes of performance issues.
+
+-   **Why Debounce is Essential Here**: Debouncing the form submission is the most critical optimization for *this specific application*. It directly addresses a network-level problem by preventing the client from sending excessive API requests. This reduces server load and makes the primary user interaction (submitting a decision) more efficient.
+
+-   **Why Memo was Also Included**: Memoizing the `DecisionRow` component addresses a *client-side rendering* problem. While the table in this project only updates after a form submission, `React.memo` is a strategic addition. It makes the `DecisionTable` component more robust and reusable for future scenarios, such as a real-time dashboard where transactions might stream in and cause frequent re-renders, it is added for future scalability.
 
 ## Design Trade-offs & Decisions
 
