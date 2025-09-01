@@ -4,6 +4,8 @@ This project is a small-scale frontend application built to display decisions fr
 
 ## Demo
 
+You can view the demo here: [PayNow-Dashboard](https://paynow-dashboard-4kfyizotr-ashirrwads-projects.vercel.app/login)
+
 *(Placeholder for a 90-120s screen recording (GIF or MP4) of the application in use.)*
 
 ## Features
@@ -15,7 +17,7 @@ This project is a small-scale frontend application built to display decisions fr
     -   A collapsible "Agent Trace" that shows the step-by-step process the agent took.
 -   **State Handling**: Clear loading, empty, and error states to inform the user of the application's status.
 -   **Accessibility**: The UI is designed with accessibility in mind, featuring labeled inputs and a fully keyboard-navigable decision drawer.
--   **Secure PII Masking**: `customerId` is always masked (e.g., `c_***123`) in the UI to protect sensitive information.
+-   **Secure PII Masking**: Advanced `customerId` masking system with configurable options (e.g., `c_***123`) protects sensitive information across all UI components. Features centralized masking utilities with data transformation support.
 -   **Performant UI**: Employs debouncing for form inputs and memoization for table rows to ensure a smooth and responsive user experience.
 
 ## Tech Stack
@@ -58,6 +60,13 @@ This project incorporates multiple strategies to ensure a responsive and efficie
 2.  **Memoized Row Rendering**: The `DecisionRow` component in the results table is wrapped with `React.memo`. This optimization prevents the entire table from re-rendering when the data changes. Only the rows whose props have actually changed will re-render, which significantly improves performance, especially with frequently updating data.
 
 3.  **Efficient State Management**: Zustand's selector-based model ensures that components only re-render when the specific slice of state they subscribe to changes, preventing unnecessary render cycles that can be common with less optimized state management setups.
+
+4.  **Centralized PII Protection**: The `maskCustomerId` utility in `/src/utils/formatting.ts` provides a centralized approach to protecting customer data across all components. The system offers:
+    -   **Configurable Masking**: Customizable prefix, mask character, suffix length, and mask length
+    -   **Data Transformation**: Optional utilities for masking at the data level (`maskCustomerIdInData`, `maskCustomerIdsInArray`)
+    -   **Type Safety**: Full TypeScript support with proper interfaces and generics
+    -   **Backward Compatibility**: Maintains existing usage while providing enhanced features
+    -   **Consistent Application**: Used across DecisionTable, DecisionDrawer, and search functionality
 
 ## Design Trade-offs & Decisions
 
