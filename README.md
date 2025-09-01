@@ -4,8 +4,8 @@ This project is a small-scale frontend application built to display decisions fr
 
 ## Demo
 
-You can view the demo here: [PayNow-Dashboard](https://paynow-dashboard-4kfyizotr-ashirrwads-projects.vercel.app/login)
-
+You can use the demo here: [PayNow-Dashboard](https://paynow-dashboard-4kfyizotr-ashirrwads-projects.vercel.app/login)
+Click the image below to watch the demo video: 
 [![Watch the video](https://img.youtube.com/vi/GRD_sGzgawA/maxresdefault.jpg)](https://youtu.be/GRD_sGzgawA)
 ## Features
 
