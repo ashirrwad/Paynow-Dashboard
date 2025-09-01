@@ -46,7 +46,7 @@ export default function DecisionDrawer() {
 
   return (
     <Transition appear show={isDrawerOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={closeDrawer}>
+      <Dialog as="div" className="relative z-60" onClose={closeDrawer}>
         {/* Backdrop */}
         <Transition.Child
           as={Fragment}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useDecisionsStore } from "@/store/decisionsStore";
 
 interface SidebarProps {
@@ -9,6 +10,20 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { decisions, error } = useDecisionsStore();
+
+  // Prevent body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const stats = {
     total: decisions.length,
@@ -26,14 +41,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-20 bg-gray-900 bg-opacity-50 transition-opacity sm:hidden"
-          onClick={onClose}
-        />
-      )}
-
       {/* Sidebar */}
       <aside
         id="sidebar"
