@@ -24,17 +24,17 @@ describe('Formatting Utils', () => {
 
   describe('maskCustomerId', () => {
     it('masks standard customer IDs', () => {
-      expect(maskCustomerId(mockDecision.customerId)).toBe('c_***456');
-      expect(maskCustomerId('user789012')).toBe('c_***012');
+      expect(maskCustomerId(mockDecision.customerId)).toBe('c_***56');
+      expect(maskCustomerId('user789012')).toBe('c_***12');
     });
 
     it('handles short customer IDs', () => {
-      expect(maskCustomerId('abc')).toBe('c_***abc');
+      expect(maskCustomerId('abc')).toBe('c_***bc');
       expect(maskCustomerId('12')).toBe('c_***12');
     });
 
     it('masks long customer IDs', () => {
-      expect(maskCustomerId('very-long-customer-id-123456')).toBe('c_***456');
+      expect(maskCustomerId('very-long-customer-id-123456')).toBe('c_***56');
     });
   });
 });

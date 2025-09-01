@@ -73,7 +73,7 @@ export interface CustomerIdMaskConfig {
 const DEFAULT_MASK_CONFIG: Required<CustomerIdMaskConfig> = {
   prefix: 'c_',
   maskChar: '*',
-  suffixLength: 3,
+  suffixLength: 2,
   maskLength: 3,
 };
 
@@ -84,9 +84,9 @@ const DEFAULT_MASK_CONFIG: Required<CustomerIdMaskConfig> = {
  * @returns Masked customer ID string
  * 
  * @example
- * maskCustomerId("customer123456") // Returns "c_***456"
- * maskCustomerId("cust123", { suffixLength: 2 }) // Returns "c_***23"
- * maskCustomerId("customer123456", { prefix: "cust_", maskChar: "X", maskLength: 4 }) // Returns "cust_XXXX456"
+ * maskCustomerId("customer123456") // Returns "c_***56"
+ * maskCustomerId("cust123", { suffixLength: 3 }) // Returns "c_***123"
+ * maskCustomerId("customer123456", { prefix: "cust_", maskChar: "X", maskLength: 4 }) // Returns "cust_XXXX56"
  */
 export const maskCustomerId = (
   customerId: string, 
@@ -94,8 +94,8 @@ export const maskCustomerId = (
 ): string => {
   const finalConfig = { ...DEFAULT_MASK_CONFIG, ...config };
   
-  // For very short customer IDs, show the whole ID with prefix and mask
-  if (customerId.length <= finalConfig.suffixLength) {
+  // For very short customer IDs (2 chars or less), show the whole ID with prefix and mask
+  if (customerId.length <= 2) {
     return `${finalConfig.prefix}${finalConfig.maskChar.repeat(finalConfig.maskLength)}${customerId}`;
   }
   
