@@ -6,8 +6,7 @@ This project is a small-scale frontend application built to display decisions fr
 
 You can view the demo here: [PayNow-Dashboard](https://paynow-dashboard-4kfyizotr-ashirrwads-projects.vercel.app/login)
 
-*(Placeholder for a 90-120s screen recording (GIF or MP4) of the application in use.)*
-
+[![Watch the video](https://img.youtube.com/vi/GRD_sGzgawA/maxresdefault.jpg)](https://youtu.be/GRD_sGzgawA)
 ## Features
 
 -   **Submit Decisions**: A simple form to submit a new transaction with an `amount`, `payee`, and `customerId`.
