@@ -2,12 +2,12 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-}
+import {
+  User,
+  authenticateUser,
+  getStoredAuthData,
+  logout as logoutService,
+} from "@/services/authService";
 
 interface AuthContextType {
   user: User | null;
@@ -27,20 +27,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Check for stored authentication on mount
   useEffect(() => {
     const checkAuth = () => {
-      if (typeof window !== "undefined") {
-        const storedUser = localStorage.getItem("user");
-        const token = localStorage.getItem("authToken");
-
-        if (storedUser && token) {
-          try {
-            const userData = JSON.parse(storedUser);
-            setUser(userData);
-          } catch (error) {
-            console.error("Error parsing stored user data:", error);
-            localStorage.removeItem("user");
-            localStorage.removeItem("authToken");
-          }
-        }
+      const authData = getStoredAuthData();
+      if (authData) {
+        setUser(authData.user);
       }
       setIsLoading(false);
     };
@@ -52,34 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(true);
 
     try {
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // For demo purposes, accept any non-empty username/password
-      if (!username.trim() || !password.trim()) {
-        throw new Error("Username and password are required");
-      }
-
-      // Create mock user data
-      const userData: User = {
-        id: `user_${Date.now()}`,
-        username: username.trim(),
-        email: `${username.trim().toLowerCase()}@example.com`,
-      };
-
-      // Generate mock JWT token
-      const mockToken = btoa(
-        JSON.stringify({
-          userId: userData.id,
-          username: userData.username,
-          exp: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-        })
-      );
-
-      // Store in localStorage
-      localStorage.setItem("user", JSON.stringify(userData));
-      localStorage.setItem("authToken", mockToken);
-
+      const { user: userData } = await authenticateUser({ username, password });
       setUser(userData);
       router.push("/dashboard");
     } catch (error) {
@@ -91,8 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("authToken");
+    logoutService();
     router.push("/login");
   };
 

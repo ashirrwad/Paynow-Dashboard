@@ -50,90 +50,81 @@ export default function DecisionDrawer() {
         {/* Backdrop */}
         <Transition.Child
           as={Fragment}
-          enter="ease-in-out duration-500"
+          enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="ease-in-out duration-500"
+          leave="ease-in duration-200"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-900/20 backdrop-blur-sm transition-opacity" />
+          <div className="fixed inset-0 bg-gray-900/25 backdrop-blur-sm" />
         </Transition.Child>
 
         {/* Drawer */}
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
               <Transition.Child
                 as={Fragment}
-                enter="transform transition ease-in-out duration-500"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
-                leave="transform transition ease-in-out duration-500"
-                leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
+                enter="transform transition ease-out duration-300"
+                enterFrom="translate-x-full opacity-0"
+                enterTo="translate-x-0 opacity-100"
+                leave="transform transition ease-in duration-200"
+                leaveFrom="translate-x-0 opacity-100"
+                leaveTo="translate-x-full opacity-0"
               >
-                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-2xl">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-in-out duration-500"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in-out duration-500"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <div className="absolute left-0 top-0 -ml-8 flex pr-2 pt-4 sm:-ml-10 sm:pr-4">
-                      <button
-                        ref={closeButtonRef}
-                        type="button"
-                        className="relative rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                        onClick={closeDrawer}
-                        aria-label="Close drawer"
-                      >
-                        <span className="absolute -inset-2.5" />
-                        <span className="sr-only">Close panel</span>
-                        <svg
-                          className="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </Transition.Child>
+                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-2xl transform-gpu">
 
                   <div
                     ref={drawerRef}
-                    className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl"
+                    className="flex h-full flex-col bg-white shadow-2xl will-change-transform"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="drawer-title"
                   >
+                    {/* Scrollable content container */}
+                    <div className="flex-1 overflow-y-auto py-6">
                     {selectedDecision && (
                       <>
                         {/* Header */}
-                        <div className="px-4 sm:px-6">
-                          <Dialog.Title
-                            className="text-base font-semibold leading-6 text-gray-900"
-                            id="drawer-title"
+                        <div className="flex items-start justify-between px-4 sm:px-6 pb-4 border-b border-gray-200">
+                          <div className="flex-1">
+                            <Dialog.Title
+                              className="text-base font-semibold leading-6 text-gray-900"
+                              id="drawer-title"
+                            >
+                              Transaction Decision Details
+                            </Dialog.Title>
+                            <p className="mt-1 text-sm text-gray-500">
+                              ID: {selectedDecision.id}
+                            </p>
+                          </div>
+                          <button
+                            ref={closeButtonRef}
+                            type="button"
+                            className="ml-4 rounded-lg p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 ease-in-out"
+                            onClick={closeDrawer}
+                            aria-label="Close drawer"
                           >
-                            Transaction Decision Details
-                          </Dialog.Title>
-                          <p className="mt-1 text-sm text-gray-500">
-                            ID: {selectedDecision.id}
-                          </p>
+                            <span className="sr-only">Close panel</span>
+                            <svg
+                              className="h-5 w-5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="2"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
                         </div>
 
                         {/* Content */}
-                        <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                        <div className="relative flex-1 px-4 sm:px-6 pt-6">
                           <div className="space-y-6">
                             {/* Decision Summary */}
                             <div className="bg-gray-50 rounded-lg p-4">
@@ -234,6 +225,7 @@ export default function DecisionDrawer() {
                         </div>
                       </>
                     )}
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

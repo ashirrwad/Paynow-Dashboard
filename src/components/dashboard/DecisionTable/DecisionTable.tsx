@@ -1,109 +1,38 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
 import { useDecisionsStore } from "@/store/decisionsStore";
-import { maskCustomerId } from "@/utils/formatting";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useTableData } from "@/hooks/useTableData";
 import DecisionRow from "./components/DecisionRow";
 import Pagination from "./components/Pagination";
 import DecisionTableFilters from "./components/DecisionTableFilters";
 import DecisionTableHeader from "./components/DecisionTableHeader";
 import EmptyState from "./components/EmptyState";
-import type { SortField, SortDirection } from "./types";
 
 export default function DecisionTable() {
   const { decisions, openDrawer } = useDecisionsStore();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [searchInput, setSearchInput] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [sortField, setSortField] = useState<SortField>("timestamp");
-  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
+  
+  const {
+    paginatedData,
+    totalItems,
+    currentPage,
+    totalPages,
+    searchInput,
+    statusFilter,
+    sortField,
+    sortDirection,
+    setSearchInput,
+    handleStatusFilterChange,
+    handleSort,
+    handlePageChange,
+    getSortIcon,
+    isEmpty,
+    needsPagination,
+  } = useTableData({
+    data: decisions,
+    itemsPerPage: 10,
+  });
 
-  const debouncedSetSearchTerm = useDebounce((value: string) => {
-    setSearchTerm(value);
-    setCurrentPage(1);
-  }, 300);
-
-  useEffect(() => {
-    debouncedSetSearchTerm(searchInput);
-  }, [searchInput, debouncedSetSearchTerm]);
-
-  const filteredAndSortedDecisions = useMemo(() => {
-    let filtered = [...decisions];
-
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (decision) =>
-          decision.payee.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          maskCustomerId(decision.customerId)
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          decision.id.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (statusFilter !== "all") {
-      filtered = filtered.filter(
-        (decision) => decision.decision === statusFilter
-      );
-    }
-
-    filtered.sort((a, b) => {
-      let aValue, bValue;
-
-      switch (sortField) {
-        case "amount":
-          aValue = a.amount;
-          bValue = b.amount;
-          break;
-        case "decision":
-          aValue = a.decision;
-          bValue = b.decision;
-          break;
-        default:
-          aValue = a.timestamp;
-          bValue = b.timestamp;
-      }
-
-      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
-      return 0;
-    });
-
-    return filtered;
-  }, [decisions, searchTerm, statusFilter, sortField, sortDirection]);
-
-  const totalPages = Math.ceil(
-    filteredAndSortedDecisions.length / itemsPerPage
-  );
-  const paginatedDecisions = filteredAndSortedDecisions.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortDirection("asc");
-    }
-    setCurrentPage(1);
-  };
-
-  const getSortIcon = (field: string) => {
-    if (sortField !== field) return null;
-    return sortDirection === "asc" ? "↑" : "↓";
-  };
-
-  const handleStatusFilterChange = (value: string) => {
-    setStatusFilter(value);
-    setCurrentPage(1);
-  };
-
-  if (decisions.length === 0) {
+  if (isEmpty) {
     return <EmptyState />;
   }
 
@@ -114,7 +43,7 @@ export default function DecisionTable() {
         onSearchChange={setSearchInput}
         statusFilter={statusFilter}
         onStatusFilterChange={handleStatusFilterChange}
-        totalResults={filteredAndSortedDecisions.length}
+        totalResults={totalItems}
       />
 
       <div className="overflow-x-auto">
@@ -126,7 +55,7 @@ export default function DecisionTable() {
             getSortIcon={getSortIcon}
           />
           <tbody className="bg-white divide-y divide-gray-200">
-            {paginatedDecisions.map((decision) => (
+            {paginatedData.map((decision) => (
               <DecisionRow
                 key={decision.id}
                 decision={decision}
@@ -137,13 +66,13 @@ export default function DecisionTable() {
         </table>
       </div>
 
-      {totalPages > 1 && (
+      {needsPagination && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={setCurrentPage}
-          totalItems={filteredAndSortedDecisions.length}
-          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          totalItems={totalItems}
+          itemsPerPage={10}
         />
       )}
     </div>
