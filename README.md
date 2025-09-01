@@ -58,8 +58,6 @@ This project incorporates multiple strategies to ensure a responsive and efficie
 
 2.  **Memoized Row Rendering**: The `DecisionRow` component in the results table is wrapped with `React.memo`. This optimization prevents the entire table from re-rendering when the data changes. Only the rows whose props have actually changed will re-render, which significantly improves performance, especially with frequently updating data.
 
-3.  **Efficient State Management**: Zustand's selector-based model ensures that components only re-render when the specific slice of state they subscribe to changes, preventing unnecessary render cycles that can be common with less optimized state management setups.
-
 ### A Note on Performance Strategy
 
 The assignment required implementing one primary performance optimization. This submission includes two (`debounce` and `memo`) because they solve two different classes of performance issues.
@@ -67,6 +65,10 @@ The assignment required implementing one primary performance optimization. This 
 -   **Why Debounce is Essential Here**: Debouncing the form submission is the most critical optimization for *this specific application*. It directly addresses a network-level problem by preventing the client from sending excessive API requests. This reduces server load and makes the primary user interaction (submitting a decision) more efficient.
 
 -   **Why Memo was Also Included**: Memoizing the `DecisionRow` component addresses a *client-side rendering* problem. While the table in this project only updates after a form submission, `React.memo` is a strategic addition. It makes the `DecisionTable` component more robust and reusable for future scenarios, such as a real-time dashboard where transactions might stream in and cause frequent re-renders, it is added for future scalability.
+
+
+3.  **Efficient State Management**: Zustand's selector-based model ensures that components only re-render when the specific slice of state they subscribe to changes, preventing unnecessary render cycles that can be common with less optimized state management setups.
+
 
 ## Design Trade-offs & Decisions
 
