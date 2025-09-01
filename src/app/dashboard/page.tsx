@@ -1,30 +1,19 @@
-"use client";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import DashboardStats from "@/components/dashboard/DashboardStats";
+import DashboardContent from "@/components/dashboard/DashboardContent";
 
-import { useDecisionsStore } from "@/store/decisionsStore";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import DashboardLayout from "@/components/layout/DashboardLayout";
-import DecisionCard from "@/components/dashboard/DecisionCard";
-import DecisionTable from "@/components/dashboard/DecisionTable";
-import DecisionDrawer from "@/components/DecisionDrawer";
-import ErrorMessage from "@/components/ErrorMessage";
-
+// Server Component - renders static content with client components
 export default function DashboardPage() {
-  const { error, clearError } = useDecisionsStore();
-
   return (
-    <ProtectedRoute>
-      <DashboardLayout>
-        <div className="space-y-6">
-          {error && <ErrorMessage message={error} onDismiss={clearError} />}
-
-          <div className="grid gap-6">
-            <DecisionCard />
-            <DecisionTable />
-          </div>
-
-          <DecisionDrawer />
-        </div>
-      </DashboardLayout>
-    </ProtectedRoute>
+    <div className="space-y-6">
+      {/* Server-rendered static header */}
+      {/* <DashboardHeader /> */}
+      
+      {/* Server-rendered static stats
+      <DashboardStats /> */}
+      
+      {/* Client-rendered interactive content */}
+      <DashboardContent />
+    </div>
   );
 }

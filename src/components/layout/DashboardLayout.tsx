@@ -8,6 +8,7 @@ interface DashboardLayoutProps {
   children: ReactNode;
 }
 
+// Client Component - Interactive layout with state management
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

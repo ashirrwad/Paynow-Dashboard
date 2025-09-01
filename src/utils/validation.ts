@@ -27,10 +27,12 @@ export const VALIDATION_RULES = {
     required: true,
     minLength: 2,
     maxLength: 100,
+    pattern: /^[a-zA-Z\s'-]+$/,
     errorMessages: {
       required: "Payee is required",
       minLength: "Payee must be at least 2 characters",
       maxLength: "Payee cannot exceed 100 characters",
+      pattern: "Payee name can only contain letters, spaces, apostrophes, and hyphens",
     },
   },
   customerId: {
@@ -75,6 +77,10 @@ export const validatePayee = (payee: string): string | undefined => {
 
   if (trimmedPayee.length > VALIDATION_RULES.payee.maxLength) {
     return VALIDATION_RULES.payee.errorMessages.maxLength;
+  }
+
+  if (!VALIDATION_RULES.payee.pattern.test(trimmedPayee)) {
+    return VALIDATION_RULES.payee.errorMessages.pattern;
   }
 
   return undefined;
